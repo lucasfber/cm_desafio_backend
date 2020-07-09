@@ -1,18 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const YAML = require("yamljs");
-const swaggerUI = require("swagger-ui-express");
+const swaggerUISetup = require("./config/swagger-setup");
+
 const errorHandler = require("./utils/error-handling/error-handler.middleware");
 
-const swaggerDoc = YAML.load("./swagger.yaml");
-
 const app = express();
+
 app.use(express.json());
 app.use(cors());
-app.set("view engine", "ejs");
-app.use(express.static("public"));
 
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+swaggerUISetup(app);
 
 app.use("/lojas", require("./routes/lojas.route"));
 app.use("/produtos", require("./routes/produtos.route"));
