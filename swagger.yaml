@@ -1,0 +1,397 @@
+swagger: "2.0"
+info:
+  description: "Documentação para a API RESTFul desenvolvida no teste backend das Casas Magalhães"
+  version: "1.0.0"
+  title: "API RESTFul - Teste Backend Casas Magalhães"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "lucas.fber@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:5000"
+basePath: "/"
+tags:
+  - name: "lojas"
+    description: "Recursos relacionados a lojas"
+  - name: "produtos"
+    description: "Recursos relacionados aos produtos"
+schemes:
+  - "http"
+paths:
+  /lojas:
+    post:
+      tags:
+        - "lojas"
+      summary: "Cria uma nova loja no banco."
+      description: ""
+      operationId: "addLoja"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "loja"
+          description: "Objeto que representa uma loja"
+          required: true
+          schema:
+            $ref: "#/definitions/Loja"
+      responses:
+        "201":
+          description: "Recurso criado com sucesso"
+        "400":
+          description: "Entrada inválida"
+    get:
+      tags:
+        - "lojas"
+      summary: "Cria uma nova loja no banco."
+      operationId: "getAllLojas"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Operação realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Loja"
+
+  /lojas/{id}:
+    get:
+      tags:
+        - "lojas"
+      summary: "Busca uma loja específica pelo id"
+      operationId: "findLoja"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "O id da loja a ser buscada"
+          required: true
+          type: "integer"
+      responses:
+        "200":
+          description: "Operação realizada com sucesso"
+          schema:
+            $ref: "#/definitions/Loja"
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+    put:
+      tags:
+        - "lojas"
+      summary: "Atualiza uma loja já existente"
+      description: ""
+      operationId: "updateLoja"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "O id da loja a ser buscada"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "loja"
+          description: "Objeto representado a loja com os dados atualizados"
+          required: true
+          schema:
+            $ref: "#/definitions/Loja"
+      responses:
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+        "405":
+          description: "Erro de validação"
+    delete:
+      tags:
+        - "lojas"
+      summary: "Deleta uma loja"
+      description: ""
+      operationId: "deleteLoja"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "O id da loja a ser deletada"
+          required: true
+          type: "integer"
+      responses:
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+        "204":
+          description: "Operação realizada com sucesso, mas sem mensagem na resposta."
+  /lojas/{id}/produtos:
+    post:
+      tags:
+        - "lojas"
+      summary: "Adiciona uma quantidade N de um produto X na loja com o id enviado no path"
+      description: ""
+      operationId: "addProdutoToLoja"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id da loja em que os produtos serão adicionados"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "loja_produto"
+          description: "Objeto representando o relacionamento Loja_Produto"
+          required: true
+          schema:
+            $ref: "#/definitions/LojaProduto"
+      responses:
+        "201":
+          description: "Recurso criado com sucesso"
+        "404":
+          description: "Loja não encontrada"
+        "405":
+          description: "Entrada inválida"
+    get:
+      tags:
+        - "lojas"
+      summary: "Recupera todos os produtos que a loja tem em seu estoque"
+      description: ""
+      operationId: "GetProdutoByLoja"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id da loja que os produtos serão mostrados."
+          required: true
+          type: "integer"
+      responses:
+        "200":
+          description: "Operação realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LojaProdutoResult"
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+    put:
+      tags:
+        - "lojas"
+      summary: "Atualiza a quantidade de um produtos X numa loja"
+      description: ""
+      operationId: "updateProdutoQuantidade"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "O id da loja"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "produto_quantidade"
+          description: "Objeto representando o produto e a nova quantidade"
+          required: true
+          schema:
+            $ref: "#/definitions/LojaProduto"
+
+      responses:
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+
+  /produtos:
+    post:
+      tags:
+        - "produtos"
+      summary: "Cria uma nova loja no banco."
+      description: ""
+      operationId: "addProduto"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "loja"
+          description: "Objeto que representa uma loja"
+          required: true
+          schema:
+            $ref: "#/definitions/Produto"
+      responses:
+        "201":
+          description: "Recurso criado com sucesso"
+        "405":
+          description: "Entrada inválida"
+    get:
+      tags:
+        - "produtos"
+      summary: "Recupera todos os produtos"
+      operationId: "getAllProdutos"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Operação realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Produto"
+
+  /produtos/{id}:
+    get:
+      tags:
+        - "produtos"
+      summary: "Busca um produto específico pelo id"
+      operationId: "findProduto"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "O id do produto a ser buscado"
+          required: true
+          type: "integer"
+      responses:
+        "200":
+          description: "Operação realizada com sucesso"
+          schema:
+            $ref: "#/definitions/Produto"
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Produto não encontrado"
+    put:
+      tags:
+        - "produtos"
+      summary: "Atualiza um produto já existente"
+      description: ""
+      operationId: "updateProduto"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          description: "O id do produto a ser atualizado"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "produto"
+          description: "Objeto representado o produto com os dados atualizados"
+          required: true
+          schema:
+            $ref: "#/definitions/Produto"
+      responses:
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Produto não encontrado"
+        "405":
+          description: "Erro de validação"
+    delete:
+      tags:
+        - "produtos"
+      summary: "Deleta um produto"
+      description: ""
+      operationId: "deleteProduto"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "O id do produto a ser deletado"
+          required: true
+          type: "integer"
+      responses:
+        "400":
+          description: "Id enviado inválido"
+        "404":
+          description: "Loja não encontrada"
+        "204":
+          description: "Operação realizada com sucesso, mas sem retorno"
+definitions:
+  Loja:
+    type: "object"
+    required:
+      - "nome"
+      - "endereco"
+      - "telefone"
+    properties:
+      nome:
+        type: "string"
+        example: "Minha Loja X"
+      endereco:
+        type: "string"
+        example: "Endereco Loja X"
+      telefone:
+        type: "string"
+        example: "88992134354"
+    xml:
+      name: "Loja"
+  Produto:
+    type: "object"
+    required:
+      - "nome"
+      - "preco"
+    properties:
+      nome:
+        type: "string"
+        example: "Smartphone Marca XYZ"
+      preco:
+        type: "number"
+        example: 1289.90
+    xml:
+      name: "Produto"
+  LojaProduto:
+    type: "object"
+    required:
+      - "produtoId"
+      - "quantidade"
+    properties:
+      produtoId:
+        type: "integer"
+        example: 2
+      quantidade:
+        type: "integer"
+        example: 10
+    xml:
+      name: "LojaProduto"
+  LojaProdutoResult:
+    type: "object"
+    properties:
+      nome:
+        type: "string"
+        example: "Smartphone Marca XYZ"
+      preco:
+        type: "number"
+        example: 1289.90
+      quantidade:
+        type: "integer"
+        example: 10
+    xml:
+      name: "LojaProdutoResult"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

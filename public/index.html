@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="formProduto" action="#" method="POST">
+      <input type="text" id="nome" />
+      <input type="number" id="preco" />
+      <input type="submit" value="Cadastrar" />
+    </form>
+
+    <script src="js/jquery.js"></script>
+    <script>
+      $(document).ready(() => {
+        const API_URL = "http://localhost:5000";
+
+        $("#formProduto").submit(function (e) {
+          e.preventDefault();
+          const nome = $("#nome").val();
+          const preco = $("#preco").val();
+
+          const produto = { nome, preco };
+
+          $.ajax({
+            type: "POST",
+            url: `${API_URL}/produtos`,
+            xhrFields: { withCredentials: true },
+            data: JSON.stringify(produto),
+            dataType: "json",
+            success: function (response) {
+              console.log("Deu certo", response);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

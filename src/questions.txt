@@ -1,0 +1,9 @@
+1 - Na descrição tem que um usuário dono de uma empresa deve 
+cadastrar suas lojas e seus produtos. O tipo de relacionamento entre as entidades Loja e Produto, bem
+como a criação dos atributos das mesmas fica a cargo do candidato, já que não tá no documento como requisito?
+
+2 - E quanto a criação de interface, também fica a critério do candidato a escolha da tecnologia né?
+
+SELECT l.nome, p.nome, p.preco, lp.quantidade 
+FROM lojas as l, produtos as p, loja_produto as lp
+WHERE lp.loja_id = 3 and p.id = lp.produto_id;
