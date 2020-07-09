@@ -34,3 +34,7 @@ A documentação dos endpoints utilizados na API pode ser consultada em: `http:/
 1.  Clone o repositório ou baixe o arquivo zipado para sua máquina, em seguida usando o terminal entre no diretório raiz do projeto, e execute o comando: `npm install` para baixar todas as dependências.
 2.  Usando o terminal entre no diretório raiz do projeto e execute: `npm run start` ou `yarn start` com isso a aplicação será iniciada em uma nova aba do seu navegador padrão.
 3.  A aplicação frontend será executada na porta `3000`
+
+## Funcionalidades que faltaram implementadar:
+
+- Não é possível atualizar a quantidade de um produto através do app Frontend. **Mas no SwaggerUI, a funcionalidade pode ser testada.**
