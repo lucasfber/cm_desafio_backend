@@ -10,6 +10,7 @@ exports.create = async (req, res, next) => {
     const insertedData = await knex("produtos").insert(produto);
 
     return res.status(201).json({
+      success: true,
       data: insertedData,
     });
   } catch (error) {
@@ -38,7 +39,7 @@ exports.getOne = async (req, res, next) => {
       return next(new ErrorResponse("Produto não encontrado", 404));
     }
 
-    return res.json({ data: loja });
+    return res.json({ success: true, data: loja });
   } catch (error) {
     console.log(error);
     next(error);
@@ -57,7 +58,9 @@ exports.update = async (req, res, next) => {
       return next(new ErrorResponse("Produto não encontrado", 404));
     }
 
-    return res.status(200).json({ info: "Produto atualizado com sucesso!" });
+    return res
+      .status(200)
+      .json({ success: true, info: "Produto atualizado com sucesso!" });
   } catch (error) {
     console.log(error);
     next(error);
@@ -73,7 +76,7 @@ exports.exclude = async (req, res, next) => {
       return next(new ErrorResponse("Produto não encontrado", 404));
     }
 
-    return res.status(200).json({ info: "Produto deletado com sucesso!" });
+    return res.status(204);
   } catch (error) {
     console.log(error);
     next(error);
@@ -89,7 +92,9 @@ exports.addProdutoToLoja = async (req, res, next) => {
 
     await knex("loja_produto").insert(lojaProduto);
 
-    return res.json({ msg: "OK" });
+    return res
+      .status(201)
+      .json({ sucess: true, info: "Produto adicionado a loja" });
   } catch (error) {
     next(error);
   }

@@ -10,6 +10,7 @@ exports.create = async (req, res, next) => {
     const insertedData = await knex("lojas").insert(loja);
 
     return res.status(201).json({
+      success: true,
       data: insertedData,
     });
   } catch (error) {
